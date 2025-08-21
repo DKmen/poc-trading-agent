@@ -3,16 +3,6 @@ import json
 
 from src import stock_analysis_agent
 
-# # invoke the trade analysis agent with user trade details
-# user_trade_details = {
-#     "trading_coin": "BTC",
-#     "trading_amount": 0.6,
-#     "trading_time": "20th December 2024, 13:25"
-# }
-
-# result = trade_analysis_agent.invoke({"messages": [HumanMessage(content=f"Analyze the trade details: {user_trade_details}")],})
-# print(result["messages"][-1])
-
 # invoke the stock analysis agent with user trade details
 user_trade_details = {
     "trading_stock": "AAPL",
@@ -29,25 +19,37 @@ print("STOCK TRADING ANALYSIS RESULT")
 print("=" * 80)
 
 if result and "messages" in result and result["messages"]:
-    analysis_result = result["messages"][-1]
+    messages = result["messages"]
     
-    # Print the content if it's a message object
-    if hasattr(analysis_result, 'content'):
-        content = analysis_result.content
-        print("\n📊 ANALYSIS OUTPUT:")
-        print("-" * 50)
+    print(f"\n📊 FOUND {len(messages)} MESSAGES:")
+    print("=" * 50)
+    
+    for i, message in enumerate(messages, 1):
+        print(f"\n📝 MESSAGE {i}:")
+        print("-" * 30)
+        print(f"Type: {type(message).__name__}")
         
-        # Try to parse as JSON for better formatting
-        try:
-            parsed_content = json.loads(content)
-            print(json.dumps(parsed_content, indent=2, ensure_ascii=False))
-        except (json.JSONDecodeError, TypeError):
-            # If not JSON, print as is
-            print(content)
-    else:
-        print("\n📊 ANALYSIS OUTPUT:")
-        print("-" * 50)
-        print(analysis_result)
+        # Print message content
+        if hasattr(message, 'content'):
+            content = message.content
+            print("Content:")
+            
+            # Try to parse as JSON for better formatting
+            try:
+                parsed_content = json.loads(content)
+                print(json.dumps(parsed_content, indent=2, ensure_ascii=False))
+            except (json.JSONDecodeError, TypeError):
+                # If not JSON, print as is
+                print(content)
+        else:
+            print("Raw message:")
+            print(message)
+        
+        # Print other attributes if available
+        if hasattr(message, 'role'):
+            print(f"Role: {message.role}")
+        if hasattr(message, 'name'):
+            print(f"Name: {message.name}")
     
     print("\n" + "=" * 80)
     print("ANALYSIS COMPLETE")

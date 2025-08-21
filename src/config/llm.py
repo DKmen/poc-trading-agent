@@ -3,7 +3,7 @@ from .constant import config
 
 llm = ChatOpenAI(
     model=config.get("OPENAI_MODEL_ID"),
-    temperature=0.6,
+    temperature=0.4,
     api_key=config["OPENAI_API_KEY"],
     max_tokens=10000,
 )

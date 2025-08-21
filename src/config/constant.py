@@ -111,6 +111,14 @@ config = {
             * `function_type: str` (e.g., "TIME_SERIES_DAILY")
             * `interval: str` (e.g., "5min")
 
+         2. **get\_stock\_quote** – Fetch real-time quote data for a specific stock.
+            **Parameters:**
+            * `stock_symbol: str` (e.g., "AAPL", "MSFT")
+
+         3. **search\_stocks** – Search for stock symbols and company information using keywords.
+            **Parameters:**
+            * `keywords: str` (e.g., "Apple", "Microsoft")
+
          ---
 
          **Required Process**
